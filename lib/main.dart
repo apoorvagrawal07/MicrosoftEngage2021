@@ -1,7 +1,7 @@
-// import 'package:WayUp/Providers/SignUpFaculty.dart';
 import 'package:WayUp/Screens/FacultyScreen.dart';
 import 'package:WayUp/Screens/MainScreen.dart';
-
+import 'package:WayUp/Screens/StudentScreen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import './Screens/SplashScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +42,8 @@ class HomePage extends StatelessWidget {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (ctx, snap) {
             if (snap.hasData) {
-              return FacultyScreen();
+              return SplashScreen();
+              // return FacultyScreen();
             }
             return MainScreen();
           },

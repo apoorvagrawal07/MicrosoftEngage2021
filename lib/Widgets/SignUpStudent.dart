@@ -1,8 +1,19 @@
+// import 'package:WayUp/Widgets/SignUpFaculty.dart';
 import 'package:flutter/material.dart';
 // import '../main.dart';
 
 class SignUpStudent extends StatefulWidget {
-  // const SignUpStudent({ Key? key }) : super(key: key);
+  SignUpStudent(this.submitFn, this.isLoading);
+
+  final bool isLoading;
+  final void Function(
+    String user,
+    String pass,
+    String roll,
+    String branch,
+    String sem,
+    BuildContext ctx,
+  ) submitFn;
 
   @override
   _SignUpStudentState createState() => _SignUpStudentState();
@@ -20,10 +31,8 @@ class _SignUpStudentState extends State<SignUpStudent> {
     'Mining',
     'Metallurgy',
   ];
-  static const List course = ['B.Tech', 'M.Tech'];
   var semval;
   var braval;
-  var couval;
 
 //below function returns the complete dropdown menu widget
   Widget listTileWidget(
@@ -43,11 +52,7 @@ class _SignUpStudentState extends State<SignUpStudent> {
                 'Select',
                 style: Theme.of(context).textTheme.bodyText1,
               ),
-              value: (currvalue == 'sem')
-                  ? semval
-                  : (currvalue == 'bra')
-                      ? braval
-                      : couval,
+              value: (currvalue == 'sem') ? semval : braval,
               dropdownColor: Colors.black87,
               items: list.map((valueitem) {
                 return DropdownMenuItem(
@@ -62,10 +67,8 @@ class _SignUpStudentState extends State<SignUpStudent> {
                 setState(() {
                   if (currvalue == 'sem')
                     semval = val;
-                  else if (currvalue == 'bra')
-                    braval = val;
                   else
-                    couval = val;
+                    braval = val;
                 });
               }),
         ),
@@ -76,8 +79,6 @@ class _SignUpStudentState extends State<SignUpStudent> {
 //global key to handle the form
   final _formKey = GlobalKey<FormState>();
   String _roll = '';
-  String _sem = '';
-  String _branch = '';
   String _user = '';
   String _pass = '';
 
@@ -89,8 +90,12 @@ class _SignUpStudentState extends State<SignUpStudent> {
     FocusScope.of(context).unfocus();
 
     if (isValid) {
-      if (braval.length != 0 && semval.length != 0)
+      if (braval.length != 0 && semval.length != 0) {
         _formKey.currentState.save();
+        print(braval);
+        widget.submitFn(
+            _user.trim(), _pass.trim(), _roll.trim(), braval, semval, context);
+      }
     }
   }
 
@@ -124,8 +129,6 @@ class _SignUpStudentState extends State<SignUpStudent> {
               ),
               listTileWidget('Semester', semester, height, width, 'sem'),
               listTileWidget('Branch', branch, height, width, 'bra'),
-              // listTileWidget('Course', course, height, width, 'cou'),
-
               TextFormField(
                 validator: (val) {
                   if (val.isEmpty) return 'Please Enter a Valid email';
@@ -163,8 +166,11 @@ class _SignUpStudentState extends State<SignUpStudent> {
                       Icons.arrow_forward,
                       color: Colors.white,
                     ),
-                    onPressed: () {}),
-              )
+                    onPressed: () {
+                      _trySubmit();
+                    }),
+              ),
+              if (widget.isLoading) CircularProgressIndicator(),
             ],
           ),
         ),

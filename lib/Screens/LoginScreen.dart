@@ -17,9 +17,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _submitit() async {
     try {
-      //Firebase Authentication Functionalities
-      // isStudent ? mail = _email : mail = 'fac' + _email;
-
       var authResult = await _auth.signInWithEmailAndPassword(
           email: _email.trim(), password: _pass.trim());
       Navigator.of(context).pop();

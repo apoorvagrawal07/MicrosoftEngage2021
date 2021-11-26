@@ -16,8 +16,58 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _auth = FirebaseAuth.instance;
   var _isLoading = false;
 
-//Faculty SignUp Form
-//Using async - await code
+  void _submitStudentForm(
+    String user,
+    String pass,
+    String roll,
+    String branch,
+    String sem,
+    BuildContext ctx,
+  ) async {
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+      //Firebase Authentication Functionalities
+
+      var authResult = await _auth.createUserWithEmailAndPassword(
+          email: user, password: pass);
+
+      Navigator.of(context).pop();
+      // Storing data in Firestore database
+
+      await FirebaseFirestore.instance
+          .collection('Student')
+          .doc(authResult.user.uid)
+          .set({
+        'Roll': roll,
+        'Email': user,
+        // 'identity': 'faculty',
+        'Password': pass,
+        'User': 'Student',
+        'Branch': branch,
+        'Semester': sem,
+      });
+    } on PlatformException catch (err) {
+      var message = 'An error occured, please check your credentials';
+
+      if (err.message != null) message = err.message;
+
+      //Popping some Error message related to credentials
+      Scaffold.of(ctx).showSnackBar(SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red,
+      ));
+      setState(() {
+        _isLoading = false;
+      });
+    } catch (err) {
+      print(err);
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
   void _submitFacultyForm(
       String name, String user, String pass, BuildContext ctx) async {
@@ -38,9 +88,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
           .doc(authResult.user.uid)
           .set({
         'Name': name,
-        'email': user,
+        'Email': user,
         // 'identity': 'faculty',
-        'pass': pass,
+        'Password': pass,
+        'User': 'faculty',
       });
     } on PlatformException catch (err) {
       var message = 'An error occured, please check your credentials';
@@ -134,7 +185,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                   isStudent
-                      ? SignUpStudent()
+                      ? SignUpStudent(_submitStudentForm, _isLoading)
                       : SignUpFaculty(_submitFacultyForm, _isLoading),
                 ],
               ),
