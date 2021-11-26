@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../Widgets/SignUpStudent.dart';
 import '../Widgets/SignUpFaculty.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 bool isStudent = true;
 
@@ -10,6 +13,56 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final _auth = FirebaseAuth.instance;
+  var _isLoading = false;
+
+//Faculty SignUp Form
+//Using async - await code
+
+  void _submitFacultyForm(
+      String name, String user, String pass, BuildContext ctx) async {
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+      //Firebase Authentication Functionalities
+
+      var authResult = await _auth.createUserWithEmailAndPassword(
+          email: user, password: pass);
+
+      Navigator.of(context).pop();
+      // Storing data in Firestore database
+
+      await FirebaseFirestore.instance
+          .collection('Faculty')
+          .doc(authResult.user.uid)
+          .set({
+        'Name': name,
+        'email': user,
+        // 'identity': 'faculty',
+        'pass': pass,
+      });
+    } on PlatformException catch (err) {
+      var message = 'An error occured, please check your credentials';
+
+      if (err.message != null) message = err.message;
+
+      //Popping some Error message related to credentials
+      Scaffold.of(ctx).showSnackBar(SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red,
+      ));
+      setState(() {
+        _isLoading = false;
+      });
+    } catch (err) {
+      print(err);
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
@@ -80,9 +133,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ],
                     ),
                   ),
-                  isStudent ? SignUpStudent() : SignUpFaculty(),
-                  
-                  
+                  isStudent
+                      ? SignUpStudent()
+                      : SignUpFaculty(_submitFacultyForm, _isLoading),
                 ],
               ),
             )));

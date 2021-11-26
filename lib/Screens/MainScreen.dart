@@ -16,8 +16,6 @@ class MainScreen extends StatelessWidget {
         height: height,
         child: Container(
           height: height / 2,
-
-          // padding: EdgeInsets.only(bottom: height / 10, top: height / 5),
           child: Column(
             children: [
               RaisedButton(

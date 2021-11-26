@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "25858984792",
+    "firebase_url": "https://msengage21---student-app-default-rtdb.firebaseio.com",
+    "project_id": "msengage21---student-app",
+    "storage_bucket": "msengage21---student-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:25858984792:android:46029f3d2444e7346f332d",
+        "android_client_info": {
+          "package_name": "com.example.WayUp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "25858984792-4phe746sgbtjb6tetoqe86neqov0ssut.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfZV946P8h-btAVyQibLte3lr8CkCnhwI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "25858984792-4phe746sgbtjb6tetoqe86neqov0ssut.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
