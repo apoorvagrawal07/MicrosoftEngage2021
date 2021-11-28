@@ -12,13 +12,13 @@ class MainScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Student App'),
+        title: Text('Study Center'),
         centerTitle: true,
         backgroundColor: Colors.blue.shade800,
       ),
       body: Container(
         decoration: BoxDecoration(
-            border: Border.all(width: 4, color: Colors.blue.shade800)),
+            border: Border.all(width: 2, color: Colors.blue.shade800)),
         alignment: Alignment.bottomCenter,
         height: height,
         child: Container(

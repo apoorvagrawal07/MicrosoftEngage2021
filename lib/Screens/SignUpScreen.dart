@@ -130,7 +130,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
         body: Container(
             decoration: BoxDecoration(
-                border: Border.all(color: Colors.blue.shade800, width: 4)),
+                border: Border.all(color: Colors.blue.shade800, width: 2)),
             alignment: Alignment.center,
             child: SingleChildScrollView(
               child: Column(

@@ -105,7 +105,7 @@ class _FacultyScreenState extends State<FacultyScreen> {
       body: SingleChildScrollView(
         child: Container(
           decoration: BoxDecoration(
-              border: Border.all(width: 4, color: Colors.blue.shade800)),
+              border: Border.all(width: 2, color: Colors.blue.shade800)),
           height: height,
           child: Column(
             children: [

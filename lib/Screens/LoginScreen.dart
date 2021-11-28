@@ -52,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-            border: Border.all(width: 4, color: Colors.blue.shade800)),
+            border: Border.all(width: 2, color: Colors.blue.shade800)),
         alignment: Alignment.center,
         height: height,
         child: Container(

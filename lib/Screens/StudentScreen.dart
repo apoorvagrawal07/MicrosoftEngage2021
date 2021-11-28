@@ -51,7 +51,7 @@ class _StudentScreenState extends State<StudentScreen> {
         ),
         body: Container(
           decoration: BoxDecoration(
-              border: Border.all(color: Colors.blue.shade800, width: 4)),
+              border: Border.all(color: Colors.blue.shade800, width: 2)),
           padding: EdgeInsets.only(top: height / 2),
           alignment: Alignment.center,
           height: height,
