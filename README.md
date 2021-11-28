@@ -18,7 +18,7 @@ The project is made under Microsoft Engage2021 Program. The idea of the project 
   
 ## Tech Stack Used:
   
-  Supported Platforms:
+  SUPPORTED PLATFORMS:
       ANDROID
   
   FRONTEND:
