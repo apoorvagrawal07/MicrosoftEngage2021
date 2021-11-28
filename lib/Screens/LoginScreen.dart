@@ -51,6 +51,8 @@ class _LoginScreenState extends State<LoginScreen> {
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
+        decoration: BoxDecoration(
+            border: Border.all(width: 4, color: Colors.blue.shade800)),
         alignment: Alignment.center,
         height: height,
         child: Container(
@@ -76,12 +78,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Row(
                     children: [
                       Card(
-                          color: Color.fromRGBO(0, 0, 128, 1),
+                          color: Colors.blue.shade800,
                           child: Container(
                             padding:
-                                EdgeInsets.all(isStudent ? width / 100 : 0),
+                                EdgeInsets.all(isStudent ? width / 160 : 0),
                             child: RaisedButton(
-                              color: Color.fromRGBO(0, 0, 128, 1),
+                              color: Colors.blue.shade800,
                               onPressed: () {
                                 if (isStudent)
                                   return;
@@ -97,12 +99,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           )),
                       Card(
-                          color: Color.fromRGBO(0, 0, 128, 1),
+                          color: Colors.blue.shade800,
                           child: Container(
                             padding:
-                                EdgeInsets.all(isStudent ? 0 : width / 100),
+                                EdgeInsets.all(isStudent ? 0 : width / 160),
                             child: RaisedButton(
-                              color: Color.fromRGBO(0, 0, 128, 1),
+                              color: Colors.blue.shade800,
                               onPressed: () {
                                 if (!isStudent)
                                   return;
@@ -162,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
-                              color: Color.fromRGBO(70, 130, 180, 1),
+                              color: Colors.blue.shade800,
                             ),
                             child: IconButton(
                               color: Colors.white,

@@ -37,17 +37,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
       // Storing data in Firestore database
 
       await FirebaseFirestore.instance
-          .collection('Student')
+          .collection('StudentDetails')
           .doc(authResult.user.uid)
+          .set({'Roll': roll, 'Branch': branch, 'Semester': sem});
+
+      await FirebaseFirestore.instance
+          .collection('Student')
+          .doc(branch + sem)
+          .collection('Rolls')
+          .doc(roll)
           .set({
         'Roll': roll,
         'Email': user,
-        // 'identity': 'faculty',
         'Password': pass,
-        'User': 'Student',
-        'Branch': branch,
-        'Semester': sem,
       });
+      FirebaseFirestore.instance
+          .collection('Student')
+          .doc(branch + sem)
+          .collection('Rolls')
+          .doc(roll)
+          .collection('Submitted')
+          .doc();
     } on PlatformException catch (err) {
       var message = 'An error occured, please check your credentials';
 
@@ -119,7 +129,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
         body: Container(
-            color: Theme.of(context).canvasColor,
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.blue.shade800, width: 4)),
             alignment: Alignment.center,
             child: SingleChildScrollView(
               child: Column(
@@ -142,11 +153,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: Row(
                       children: [
                         Card(
-                            color: Color.fromRGBO(0, 0, 128, 1),
+                            color: Colors.blue.shade800,
                             child: Container(
                               padding: EdgeInsets.all(isStudent ? 8 : 0),
                               child: RaisedButton(
-                                color: Color.fromRGBO(0, 0, 128, 1),
+                                color: Colors.blue.shade800,
                                 onPressed: () {
                                   if (isStudent)
                                     return;
@@ -162,11 +173,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                             )),
                         Card(
-                            color: Color.fromRGBO(0, 0, 128, 1),
+                            color: Colors.blue.shade800,
                             child: Container(
                               padding: EdgeInsets.all(isStudent ? 0 : 8),
                               child: RaisedButton(
-                                color: Color.fromRGBO(0, 0, 128, 1),
+                                color: Colors.blue.shade800,
                                 onPressed: () {
                                   if (!isStudent)
                                     return;

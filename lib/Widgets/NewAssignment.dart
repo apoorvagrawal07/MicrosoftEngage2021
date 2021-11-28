@@ -91,46 +91,52 @@ class _NewAssignmentState extends State<NewAssignment> {
         child: Card(
       elevation: 5,
       child: Container(
+        height: height,
         color: Colors.blue,
         padding: EdgeInsets.only(
             top: 10,
             left: 10,
             right: 10,
             bottom: MediaQuery.of(context).viewInsets.bottom + 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            TextField(
-              decoration: InputDecoration(
-                  labelText: 'Subject',
-                  labelStyle: TextStyle(color: Colors.white)),
-              controller: _subC,
-              onSubmitted: (_) => _submitData(),
-            ),
-            TextField(
-              decoration: InputDecoration(
-                  labelText: 'Assignment',
-                  labelStyle: TextStyle(color: Colors.white)),
-              controller: _conC,
-              keyboardType: TextInputType.number,
-              onSubmitted: (_) => _submitData(),
-            ),
-            listTileWidget('Semester', semester, height, width, 'sem'),
-            listTileWidget('Branch', branch, height, width, 'bra'),
-            Container(
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(1)),
-                padding: EdgeInsets.symmetric(horizontal: 2, vertical: 0),
-                width: width / 3,
-                // color: Colors.white,
-                child: RaisedButton(
-                  onPressed: _submitData,
-                  padding: EdgeInsets.all(2),
-                  color: Colors.blue,
-                  child: Text('Add Assignment'),
-                  textColor: Colors.white,
-                )),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              TextField(
+                decoration: InputDecoration(
+                    labelText: 'Subject',
+                    labelStyle: TextStyle(color: Colors.white)),
+                controller: _subC,
+                onSubmitted: (_) => _submitData(),
+              ),
+              listTileWidget('Semester', semester, height, width, 'sem'),
+              listTileWidget('Branch', branch, height, width, 'bra'),
+              TextField(
+                keyboardType: TextInputType.multiline,
+                minLines: 1, //Normal textInputField will be displayed
+                maxLines: 10, // when user presses enter it will adapt to it
+                decoration: InputDecoration(
+                    labelText: 'Assignment',
+                    labelStyle: TextStyle(color: Colors.white)),
+                controller: _conC,
+                // keyboardType: TextInputType.number,
+                onSubmitted: (_) => _submitData(),
+              ),
+              Container(
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(1)),
+                  padding: EdgeInsets.symmetric(horizontal: 2, vertical: 0),
+                  width: width / 3,
+                  // color: Colors.white,
+                  child: RaisedButton(
+                    onPressed: _submitData,
+                    padding: EdgeInsets.all(2),
+                    color: Colors.blue,
+                    child: Text('Add Assignment'),
+                    textColor: Colors.white,
+                  )),
+            ],
+          ),
         ),
       ),
     ));

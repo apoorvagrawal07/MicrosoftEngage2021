@@ -16,17 +16,51 @@ class AssignmentList extends StatefulWidget {
 class _AssignmentListState extends State<AssignmentList> {
   final _subCont = TextEditingController();
 
-  void _submitAsn(String subject) async {
+  void _submitAsn(String subject, String content) async {
     if (_subCont.text.isEmpty) return;
 
-    var content = _subCont.text;
-
-    await FirebaseFirestore.instance
-        .collection('Assignments')
-        .doc(branch + sem)
-        .collection(branch + sem)
-        .doc(subject)
-        .collection('Submitted');
+    var submission = _subCont.text;
+    try {
+      await FirebaseFirestore.instance
+          .collection('Assignments')
+          .doc(branch + sem)
+          .collection(branch + sem)
+          .doc(subject)
+          .collection('Submitted')
+          .doc()
+          .set({'Roll': roll, 'Content': submission});
+      Navigator.of(context).pop();
+    } catch (error) {
+      print(error);
+    }
+    try {
+      await FirebaseFirestore.instance
+          .collection('Student')
+          .doc(branch + sem)
+          .collection('Rolls')
+          .doc(roll)
+          .collection('Submitted')
+          .doc(subject)
+          .set({
+        'Title': subject,
+        'Content': content,
+        'Submission': submission,
+      });
+    } catch (error) {
+      print(error);
+    }
+    try {
+      await FirebaseFirestore.instance
+          .collection('Student')
+          .doc(branch + sem)
+          .collection('Rolls')
+          .doc(roll)
+          .collection('Assignments')
+          .doc(subject)
+          .delete();
+    } catch (error) {
+      print(error);
+    }
   }
 
   void _viewAsn(BuildContext ctx, String subject, String content) {
@@ -57,15 +91,13 @@ class _AssignmentListState extends State<AssignmentList> {
                           labelText: 'Write Here',
                           labelStyle: TextStyle(color: Colors.white)),
                       controller: _subCont,
-                      onSubmitted: (_) => _submitAsn(subject),
+                      onSubmitted: (_) => _submitAsn(subject, content),
                     ),
                     Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(1)),
                         padding:
                             EdgeInsets.symmetric(horizontal: 2, vertical: 0),
-                        // width: width / 3,
-                        // color: Colors.white,
                         child: RaisedButton(
                           onPressed: () => _submitAsn,
                           padding: EdgeInsets.all(2),
@@ -81,53 +113,52 @@ class _AssignmentListState extends State<AssignmentList> {
 
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
-    var width = MediaQuery.of(context).size.width;
-    return StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('Assignments')
-            .doc(branch + sem)
-            .collection(branch + sem)
-            .snapshots(),
-        builder: (ctx, snap) {
-          if (snap.connectionState == ConnectionState.waiting)
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          if (snap.hasData) {
-            var list = snap.data.docs;
-            // var count = list.length;
-            // return ListView.builder(
-            //   itemCount: count,
-            //   itemBuilder: (cont,ind){
-            //   return InkWell(
-            //         onTap: () => _viewAsn(context,),
-            //         child: Card(
-            //               child: ListTile(
-            //                 title: Text(doc['Subject']),
-            //                 subtitle: Text(doc['Content']),
-            //               ),
-            //             ),
-            //       ))
-            // });
-
-            return ListView(
-              children: list
-                  .map((doc) => InkWell(
-                        // onTap: () =>
-                        //     _viewAsn(ctx, doc['Subject'], doc['Content']),
-                        onTap: null,
-                        child: Card(
-                          child: ListTile(
-                            title: Text(doc['Subject']),
-                            subtitle: Text(doc['Content']),
-                          ),
-                        ),
-                      ))
-                  .toList(),
-            );
-          }
-          return Text('Error');
-        });
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Pending Assignments'),
+        centerTitle: true,
+        backgroundColor: Colors.blue.shade800,
+      ),
+      body: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('Student')
+              .doc(branch + sem)
+              .collection('Rolls')
+              .doc(roll)
+              .collection('Assignments')
+              .snapshots(),
+          builder: (ctx, snap) {
+            if (snap.connectionState == ConnectionState.waiting)
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            if (snap.hasData) {
+              var list = snap.data.docs;
+              if (list.length == 0)
+                return Center(
+                  child: Text(
+                    'Hooray! No Pending Assignments',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                );
+              else
+                return ListView(
+                  children: list
+                      .map((doc) => InkWell(
+                            onTap: () =>
+                                _viewAsn(ctx, doc['Title'], doc['Content']),
+                            child: Card(
+                              child: ListTile(
+                                title: Text(doc['Title']),
+                                subtitle: Text(doc['Content']),
+                              ),
+                            ),
+                          ))
+                      .toList(),
+                );
+            }
+            return Text('Error');
+          }),
+    );
   }
 }

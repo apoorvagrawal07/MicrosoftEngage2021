@@ -100,7 +100,7 @@ class _SignUpFacultyState extends State<SignUpFaculty> {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  color: Color.fromRGBO(70, 130, 180, 1),
+                  color: Colors.blue.shade800,
                 ),
                 child: IconButton(
                     color: Colors.white,

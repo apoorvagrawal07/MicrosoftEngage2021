@@ -11,7 +11,14 @@ class MainScreen extends StatelessWidget {
     var width = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Student App'),
+        centerTitle: true,
+        backgroundColor: Colors.blue.shade800,
+      ),
       body: Container(
+        decoration: BoxDecoration(
+            border: Border.all(width: 4, color: Colors.blue.shade800)),
         alignment: Alignment.bottomCenter,
         height: height,
         child: Container(
@@ -24,7 +31,7 @@ class MainScreen extends StatelessWidget {
                     return LoginScreen();
                   }));
                 },
-                color: Color.fromRGBO(70, 130, 180, 1),
+                color: Colors.blue.shade800,
                 child:
                     Text("Login", style: Theme.of(context).textTheme.bodyText1),
               ),
@@ -34,7 +41,7 @@ class MainScreen extends StatelessWidget {
                     return SignUpScreen();
                   }));
                 },
-                color: Color.fromRGBO(70, 130, 180, 1),
+                color: Colors.blue.shade800,
                 child: Text(
                   "SignUp",
                   style: Theme.of(context).textTheme.bodyText1,

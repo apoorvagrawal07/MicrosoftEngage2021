@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 bool fac = true;
 // var ds,student;
-var branch, sem, roll;
+var branch, sem, roll, facname = '';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -26,23 +26,29 @@ class _SplashScreenState extends State<SplashScreen> {
     var ds =
         await FirebaseFirestore.instance.collection('Faculty').doc(uid).get();
 
-    var stu =
-        await FirebaseFirestore.instance.collection('Student').doc(uid).get();
-
-    // stu.asStream().listen((event) {
-    //     branch = event.data()['Branch'];
-    //     sem = event.data()['Semester'];
-    //   });
+    var stu = await FirebaseFirestore.instance
+        .collection('StudentDetails')
+        .doc(uid)
+        .get();
 
     if (!ds.exists) {
-      var stu =
-          await FirebaseFirestore.instance.collection('Student').doc(uid).get();
+      var stu = await FirebaseFirestore.instance
+          .collection('StudentDetails')
+          .doc(uid)
+          .get();
       setState(() {
         branch = stu.data()['Branch'];
         sem = stu.data()['Semester'];
         roll = stu.data()['Roll'];
       });
+    } else {
+      var fac =
+          await FirebaseFirestore.instance.collection('Faculty').doc(uid).get();
+      setState(() {
+        facname = fac['Name'];
+      });
     }
+
     print(sem);
 
     this.setState(() {
@@ -52,7 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (fac) return FacultyScreen();
+    if (fac) return FacultyScreen(facname);
 
     return StudentScreen(branch, sem, roll);
   }
