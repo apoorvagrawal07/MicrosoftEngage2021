@@ -36,7 +36,7 @@ The project is made under Microsoft Engage2021 Program. The idea of the project 
        
  ## Work Flow:
  
-    ![Screenshot (246)](https://user-images.githubusercontent.com/50518164/143776034-ed1f248f-0e52-4f0d-ba2d-5c1e2316e98c.png)
+    https://docs.google.com/document/d/1KSdIzA5RNl5YFdPflEPGzBT4jJGF3Pwh/edit?usp=sharing&ouid=114106566725957183896&rtpof=true&sd=true
 
        
  ## Screenshots
