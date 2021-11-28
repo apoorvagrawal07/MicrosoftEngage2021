@@ -27,7 +27,7 @@ The project is made under Microsoft Engage2021 Program. The idea of the project 
   AUTHENTICATION: 
       FIREBASE AUTHENTICATION SERVICES
   
-  BACKEND:
+  DATABASE:
       FIRESTORE
   
   APIs Used:
